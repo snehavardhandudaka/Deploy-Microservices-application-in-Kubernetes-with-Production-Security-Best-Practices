@@ -1,0 +1,23 @@
+# ingress.yaml with TLS
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-ingress
+  namespace: shop-namespace
+spec:
+  tls:
+  - hosts:
+    - shop.example.com
+    secretName: tls-secret  # This secret should contain the SSL certificate and private key
+  rules:
+  - host: shop.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: product-service
+            port:
+              number: 80
+
